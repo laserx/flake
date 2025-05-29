@@ -8,20 +8,17 @@
   inputs,
   ...
 }: let
-  substitute = args: builtins.readFile (replaceVars args);
+  # For files that need variable substitution
+  substitute = args: builtins.readFile (replaceVars args.src (removeAttrs args ["src"]));
 
   filter-flake = writeShellApplication {
     name = "filter-flake";
-    text = substitute {
-      src = ./filter-flake.sh;
-    };
+    text = builtins.readFile ./filter-flake.sh;
     checkPhase = "";
   };
   filter-flakes = writeShellApplication {
     name = "filter-flakes";
-    text = substitute {
-      src = ./filter-flakes.sh;
-    };
+    text = builtins.readFile ./filter-flakes.sh;
     checkPhase = "";
     runtimeInputs = [
       filter-flake
@@ -29,9 +26,7 @@
   };
   get-registry-flakes = writeShellApplication {
     name = "get-registry-flakes";
-    text = substitute {
-      src = ./get-registry-flakes.sh;
-    };
+    text = builtins.readFile ./get-registry-flakes.sh;
     checkPhase = "";
   };
 in
