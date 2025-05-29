@@ -12,12 +12,16 @@
 
   filter-flake = writeShellApplication {
     name = "filter-flake";
-    text = builtins.readFile ./filter-flake.sh;
+    text = substitute {
+      src = ./filter-flake.sh;
+    };
     checkPhase = "";
   };
   filter-flakes = writeShellApplication {
     name = "filter-flakes";
-    text = builtins.readFile ./filter-flakes.sh;
+    text = substitute {
+      src = ./filter-flakes.sh;
+    };
     checkPhase = "";
     runtimeInputs = [
       filter-flake
@@ -25,7 +29,9 @@
   };
   get-registry-flakes = writeShellApplication {
     name = "get-registry-flakes";
-    text = builtins.readFile ./get-registry-flakes.sh;
+    text = substitute {
+      src = ./get-registry-flakes.sh;
+    };
     checkPhase = "";
   };
 in
